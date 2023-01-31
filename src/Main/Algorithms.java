@@ -19,6 +19,11 @@ public abstract class Algorithms {
         return stringBuilder.toString();
     }
 
+    /**
+     *
+     * @param arr
+     * @return arraylist: index 0 is the highest number, and index 1 is index of highest number
+     */
     public static ArrayList<Integer> getHighestNumAndItsIndexInArr(ArrayList<Integer> arr) {
         int temp = 0;
         int tempIndex = 0;
