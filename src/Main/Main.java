@@ -1,5 +1,7 @@
 package Main;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -62,7 +64,51 @@ public class Main {
         System.out.println("Najczęściej dopisywana litera to " + setToArray.get(highestNumAndIndex.get(1)) + ", była ona dopisana " + highestNumAndIndex.get(0) + " razy.");
     }
 
+    public static void zad4Part4() throws IOException {
+        ArrayList<Character> array = new ArrayList<>(Arrays.asList('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','w','x','y','z'));
+        ArrayList<String> alphabet = new ArrayList<>();
+        for(Character c : array)
+            alphabet.add(c.toString().toUpperCase());
+
+        ArrayList<String> content = loadFileArray(new File("instrukcje.txt"));
+        System.out.println(content);
+        ArrayList<String> word = new ArrayList<>();
+        for(int i = 0; i < content.size(); i++) {
+            String instuction = content.get(i).split(" ")[0];
+            String value = content.get(i).split(" ")[1];
+            switch (instuction) {
+                case "DOPISZ":
+                    word.add(value);
+                    break;
+                case "ZMIEN":
+                    word.set(word.size()-1, value);
+                    break;
+                case "USUN":
+                    word.remove(word.size()-1);
+                    break;
+                case "PRZESUN":
+                    int indexInAlphabet = 0;
+                    for(int x = 0; x < alphabet.size(); x++) {
+                        if(alphabet.get(x).equals(value.toUpperCase())) {
+                            indexInAlphabet = x;
+                            break;
+                        }
+                    }
+                    for(int j = 0; j < word.size(); j++){
+                        if(word.get(j).contains(value)) {
+                            if(indexInAlphabet != 23)
+                                word.set(j, alphabet.get(indexInAlphabet+1));
+                            else
+                                word.set(j, "A");
+                        }
+                    }
+                    break;
+            }
+        }
+        System.out.println(word);
+    }
+
     public static void main(String[] args) throws IOException {
-        zad4Part3();
+        zad4Part4();
     }
 }
