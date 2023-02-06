@@ -108,7 +108,39 @@ public class Main {
         System.out.println(word);
     }
 
+    private static void zad5Part1() throws IOException {
+        ArrayList<String> a = loadFileArray(new File("wodociagi.txt"));
+        ArrayList<String> content = new ArrayList<>();
+        LinkedHashMap<String, Integer> results = new LinkedHashMap<>();
+        for(int i = 1; i < a.size(); i++)
+            content.add(a.get(i));
+        for(String s : content) {
+            String[] contentSplit = s.split(";"); //index 0 = numer klienta, 1=pierwszy miesiac, 2=drugi, itd...
+            int sum = 0;
+            for(int i = 1; i < contentSplit.length; i++) {
+                sum += Integer.parseInt(contentSplit[i]);
+            }
+            results.put(contentSplit[0], sum);
+        }
+        Set<String> set = results.keySet();
+        int temp = 0;
+        String tempIndex = null;
+        for(String s : set) {
+            if(results.get(s) > temp) {
+                temp = results.get(s);
+                tempIndex = s;
+            }
+        }
+        System.out.println(temp + " " + tempIndex);
+    }
+
+    private static void test() {
+        ClientCode code = new ClientCode("1234598WIL");
+        System.out.println(code.getClientNumber());
+        System.out.println(code.getHowManyPeople());
+        System.out.println(code.getCityDistrict());
+    }
     public static void main(String[] args) throws IOException {
-        zad4Part4();
+        zad5Part1();
     }
 }
