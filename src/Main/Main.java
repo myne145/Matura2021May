@@ -136,6 +136,28 @@ public class Main {
             System.out.println(reversedResults.get(averageUsage.get(i)).getClientNumString() + "\t" + format.format(averageUsage.get(i)));
     }
 
+    //Treść:
+    //Dla każdej dzielnicy podaj całkowite roczne zużycie wody przez jej wszystkich mieszkańców.
+    private static void zad5Part2() throws IOException {
+        ArrayList<String> a = loadFileArray(new File("wodociagi.txt"));
+        ArrayList<String> content = new ArrayList<>();
+        ArrayList<Double> averageUsage = new ArrayList<>();
+        LinkedHashMap<ClientCode, Integer> results = new LinkedHashMap<>();
+        LinkedHashMap<Double, ClientCode> reversedResults = new LinkedHashMap<>();
+        for(int i = 1; i < a.size(); i++)
+            content.add(a.get(i));
+        for(String s : content) {
+            String[] contentSplit = s.split(";"); //index 0 = numer klienta, 1=pierwszy miesiac, 2=drugi, itd...
+            int sum = 0;
+            for (int i = 1; i < contentSplit.length; i++) {
+                sum += Integer.parseInt(contentSplit[i]);
+            }
+            ClientCode code = new ClientCode(contentSplit[0]);
+            results.put(code, sum);
+        }
+        LinkedHashMap<ClientCode, Integer> map = new LinkedHashMap<ClientCode, Integer>();
+    }
+
     private static void test() {
         ClientCode code = new ClientCode("1234598WIL");
         System.out.println(code.getClientNumber());
