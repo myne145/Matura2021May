@@ -4,6 +4,8 @@ import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import static Main.Algorithms.*;
@@ -111,7 +113,9 @@ public class Main {
     private static void zad5Part1() throws IOException {
         ArrayList<String> a = loadFileArray(new File("wodociagi.txt"));
         ArrayList<String> content = new ArrayList<>();
-        LinkedHashMap<String, Integer> results = new LinkedHashMap<>();
+        ArrayList<Double> averageUsage = new ArrayList<>();
+        LinkedHashMap<ClientCode, Double> results = new LinkedHashMap<>();
+        LinkedHashMap<Double, ClientCode> reversedResults = new LinkedHashMap<>();
         for(int i = 1; i < a.size(); i++)
             content.add(a.get(i));
         for(String s : content) {
@@ -120,18 +124,16 @@ public class Main {
             for(int i = 1; i < contentSplit.length; i++) {
                 sum += Integer.parseInt(contentSplit[i]);
             }
-            results.put(contentSplit[0], sum);
+            ClientCode code = new ClientCode(contentSplit[0]);
+            double averageWater = sum / (double)code.getHowManyPeople();
+            results.put(code, averageWater);
+            reversedResults.put(averageWater, code);
+            averageUsage.add(averageWater);
         }
-        Set<String> set = results.keySet();
-        int temp = 0;
-        String tempIndex = null;
-        for(String s : set) {
-            if(results.get(s) > temp) {
-                temp = results.get(s);
-                tempIndex = s;
-            }
-        }
-        System.out.println(temp + " " + tempIndex);
+        Collections.sort(averageUsage);
+        DecimalFormat format = new DecimalFormat("###.##");
+        for(int i = averageUsage.size()-1; i >= averageUsage.size()-11; i--)
+            System.out.println(reversedResults.get(averageUsage.get(i)).getClientNumString() + "\t" + format.format(averageUsage.get(i)));
     }
 
     private static void test() {
