@@ -160,6 +160,25 @@ public class Main {
 
     }
 
+    /*
+    Dla  każdej  dzielnicy  oblicz  zużycie  wody  w  każdym  miesiącu  łącznie  przez  wszystkich mieszkańców tej dzielnicy.
+    Podaj maksymalne miesięczne zużycie wody w każdej z dzielnic.
+     */ //TODO: nie rozumiem polecenia
+    private static void za5Part3() throws IOException {
+        ArrayList<String> a = loadFileArray(new File("wodociagi.txt"));
+        ArrayList<String> content = new ArrayList<>();
+        LinkedHashMap<String, ArrayList<Integer>> results = new LinkedHashMap<>();
+        for(int i = 1; i < a.size(); i++)
+            content.add(a.get(i));
+        for(String s : content) {
+            ArrayList<Integer> arr = new ArrayList<>();
+            results.put(new ClientCode(s.split(";")[0]).getCityDistrict(), new ArrayList<>());
+        }
+
+    }
+
+
+
     private static void test() {
         ClientCode code = new ClientCode("1234598WIL");
         System.out.println(code.getClientNumber());
