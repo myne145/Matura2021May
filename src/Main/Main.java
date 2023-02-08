@@ -141,21 +141,23 @@ public class Main {
     private static void zad5Part2() throws IOException {
         ArrayList<String> a = loadFileArray(new File("wodociagi.txt"));
         ArrayList<String> content = new ArrayList<>();
-        ArrayList<Double> averageUsage = new ArrayList<>();
-        LinkedHashMap<ClientCode, Integer> results = new LinkedHashMap<>();
-        LinkedHashMap<Double, ClientCode> reversedResults = new LinkedHashMap<>();
+        LinkedHashMap<String, Integer> results = new LinkedHashMap<>();
         for(int i = 1; i < a.size(); i++)
             content.add(a.get(i));
+        for(String s : content)
+            results.put(new ClientCode(s.split(";")[0]).getCityDistrict(), 0);
+        System.out.println(results);
         for(String s : content) {
-            String[] contentSplit = s.split(";"); //index 0 = numer klienta, 1=pierwszy miesiac, 2=drugi, itd...
+            String[] splittedLine = s.split(";");
+            ClientCode clientCode = new ClientCode(splittedLine[0]);
             int sum = 0;
-            for (int i = 1; i < contentSplit.length; i++) {
-                sum += Integer.parseInt(contentSplit[i]);
+            for(int i = 1; i < splittedLine.length; i++) {
+                sum += Integer.parseInt(splittedLine[i]);
             }
-            ClientCode code = new ClientCode(contentSplit[0]);
-            results.put(code, sum);
+            results.put(clientCode.getCityDistrict(), results.get(clientCode.getCityDistrict()) + sum);
         }
-        LinkedHashMap<ClientCode, Integer> map = new LinkedHashMap<ClientCode, Integer>();
+        System.out.println(results);
+
     }
 
     private static void test() {
@@ -165,6 +167,6 @@ public class Main {
         System.out.println(code.getCityDistrict());
     }
     public static void main(String[] args) throws IOException {
-        zad5Part1();
+        zad5Part2();
     }
 }
