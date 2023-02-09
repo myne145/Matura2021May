@@ -1,10 +1,9 @@
 package Main;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import sun.awt.image.ImageWatched;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -156,6 +155,7 @@ public class Main {
             }
             results.put(clientCode.getCityDistrict(), results.get(clientCode.getCityDistrict()) + sum);
         }
+        System.out.println(results.values());
         System.out.println(results);
 
     }
@@ -163,18 +163,44 @@ public class Main {
     /*
     Dla  każdej  dzielnicy  oblicz  zużycie  wody  w  każdym  miesiącu  łącznie  przez  wszystkich mieszkańców tej dzielnicy.
     Podaj maksymalne miesięczne zużycie wody w każdej z dzielnic.
-     */ //TODO: nie rozumiem polecenia
-    private static void za5Part3() throws IOException {
+     */
+    private static void zad5Part3() throws IOException {
         ArrayList<String> a = loadFileArray(new File("wodociagi.txt"));
         ArrayList<String> content = new ArrayList<>();
         LinkedHashMap<String, ArrayList<Integer>> results = new LinkedHashMap<>();
         for(int i = 1; i < a.size(); i++)
             content.add(a.get(i));
         for(String s : content) {
-            ArrayList<Integer> arr = new ArrayList<>();
-            results.put(new ClientCode(s.split(";")[0]).getCityDistrict(), new ArrayList<>());
+            results.put(new ClientCode(s.split(";")[0]).getCityDistrict(), new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0)));
         }
-
+//        for(int i = 1; i <= 12; i++) {
+//            for (String s: content) {
+//                String[] splitLine = s.split(";");
+//                ClientCode code = new ClientCode(splitLine[0]);
+//                int temp = splitLine[i] +
+//                results.put(code.getCityDistrict(), results.get(code.getCityDistrict()) + splitLine[i]);
+//            }
+//        }
+        LinkedHashMap<String, ArrayList<Integer>> map = new LinkedHashMap<String, ArrayList<Integer>>();
+        for(String s : content) {
+            map.put(new ClientCode(s.split(";")[0]).getCityDistrict(), new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0)));
+        }
+        for (String s : content) {
+            ArrayList<Integer> arr = new ArrayList<>();
+            for(int i = 1; i <= 12; i++) {
+                String[] splitLine = s.split(";");
+                arr.add(Integer.valueOf(splitLine[i]));
+            }
+            map.put(new ClientCode(s.split(";")[0]).getCityDistrict(), sumArraysWithTheSameLength(arr, map.get(new ClientCode(s.split(";")[0]).getCityDistrict())));
+        }
+        List<ArrayList<Integer>> list = new ArrayList<>(map.values());
+        Set<String> keys = map.keySet();
+        for(int i = 0; i < list.size(); i++) {
+            int sum = 0;
+            for(int j = 0; j < list.get(i).size(); j++)
+                sum += list.get(i).get(j);
+            System.out.println("Suma dla dzielnicy " + keys.toArray()[i] + " to: " + sum);
+        }
     }
 
 
@@ -186,6 +212,6 @@ public class Main {
         System.out.println(code.getCityDistrict());
     }
     public static void main(String[] args) throws IOException {
-        zad5Part2();
+        zad5Part3();
     }
 }

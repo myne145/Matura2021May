@@ -36,4 +36,11 @@ public abstract class Algorithms {
 
         return new ArrayList<>(Arrays.asList(temp, tempIndex));
     }
+
+    public static ArrayList<Integer> sumArraysWithTheSameLength(ArrayList<Integer> arr, ArrayList<Integer> arr2) {
+        ArrayList<Integer> result = new ArrayList<>();
+        for(int i = 0; i < arr.size(); i++)
+            result.add(arr.get(i) + arr2.get(i));
+        return result;
+    }
 }
