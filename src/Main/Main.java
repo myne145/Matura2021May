@@ -173,14 +173,7 @@ public class Main {
         for(String s : content) {
             results.put(new ClientCode(s.split(";")[0]).getCityDistrict(), new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0)));
         }
-//        for(int i = 1; i <= 12; i++) {
-//            for (String s: content) {
-//                String[] splitLine = s.split(";");
-//                ClientCode code = new ClientCode(splitLine[0]);
-//                int temp = splitLine[i] +
-//                results.put(code.getCityDistrict(), results.get(code.getCityDistrict()) + splitLine[i]);
-//            }
-//        }
+
         LinkedHashMap<String, ArrayList<Integer>> map = new LinkedHashMap<String, ArrayList<Integer>>();
         for(String s : content) {
             map.put(new ClientCode(s.split(";")[0]).getCityDistrict(), new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0)));
@@ -202,16 +195,59 @@ public class Main {
             System.out.println("Suma dla dzielnicy " + keys.toArray()[i] + " to: " + sum);
         }
     }
+    /*
+    Dział inwestycji analizuje konieczność modernizacji sieci wodociągowej na podstawie danych za  rok  2019.
+    Jako  podstawę  obliczeń  bierze  sumaryczne  zużycie  wody  w każdym  z  12 miesięcy.
+    Inżynierowie założyli, że sumaryczne miesięczne zużycie wody będzie rosło o 1% rok do roku każdego miesiąca (w m3 z zaokrągleniem w górę do najbliższej liczby całkowitej).
+    Przykład: jeśli  w  styczniu  2019  roku  sumaryczne  zużycie  wody  w  mieście  wyniosło  53 545  m3,  to w styczniu 2020 przewidywane zużycie wyniesie 54 081 m3.
+    Uwaga:  dla  danych  z  zadania  przewidywane  zużycie  wody  w  maju  2025  roku  wyniesie 90 898 m3.
+    Obecnie maksymalny miesięczny przepływ (wydajność sieci) wynosi 160 000 m3.
+    Podaj rok i miesiąc, w którym pierwszy raz zabraknie wody w mieście (przewidywane zużycie będzie większe niż maksymalny przepływ sieci).
+    Sporządź zestawienie obrazujące przewidywane zużycie wody w każdym z kolejnych miesięcy od stycznia 2020 roku do grudnia 2030 roku.
+    Narysuj  wykres  liniowy  obrazujący  przewidywane  zużycie  wody  w  każdym  z  kolejnych miesięcy w 2030 roku.
+     */
+    private static void zad5Part4() throws IOException {
+        ArrayList<String> a = loadFileArray(new File("wodociagi.txt"));
+        ArrayList<String> content = new ArrayList<>();
+        LinkedHashMap<Integer, ArrayList<Integer>> results = new LinkedHashMap<>();
+        ArrayList<Integer> temp = new ArrayList<>();
+        for(int i = 1; i < a.size(); i++)
+            content.add(a.get(i));
+        double multiplier = 1.0;
 
-
-
-    private static void test() {
-        ClientCode code = new ClientCode("1234598WIL");
-        System.out.println(code.getClientNumber());
-        System.out.println(code.getHowManyPeople());
-        System.out.println(code.getCityDistrict());
+        for (int i = 1; i <= 12; i++) {
+            double sum = 0;
+            for (String s : content) {
+                String[] lineSplit = s.split(";");
+                sum += Integer.parseInt(lineSplit[i]) * multiplier;
+            }
+            temp.add((int) Math.ceil(sum));
+        }
+        for(int year = 2020; year <= 2030; year++) {
+            for (int i = 0; i < temp.size(); i++) {
+                temp.set(i,  (int)Math.ceil(temp.get(i) * 1.01));
+            }
+            results.put(year, new ArrayList<>(temp));
+        }
+        List<ArrayList<Integer>> values = new ArrayList<>(results.values());
+        Set<Integer> keys = results.keySet();
+        System.out.println("ZESTAWIENIE:");
+        for(int i = 0; i < results.size(); i++) {
+            System.out.println("Rok " + keys.toArray()[i] + ", Miesiące: " + values.toArray()[i]);
+        }
+        System.out.println("\nMIESIĄC GDZIE SIEĆ SIĘ PRZEPEŁNI: ");
+        ArrayList<Integer> tempdasda = new ArrayList<>();
+        for (ArrayList<Integer> value : values) {
+            for (int j = 0; j < value.size(); j++) {
+                if (value.get(j) > 160000) {
+                    tempdasda.add(value.get(j));
+                }
+            }
+        }
+        System.out.println(tempdasda.get(0));
     }
+
     public static void main(String[] args) throws IOException {
-        zad5Part3();
+        zad5Part4();
     }
 }
