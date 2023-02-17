@@ -254,8 +254,8 @@ public class Main {
         ArrayList<Integer> temp = new ArrayList<>();
         for(int i = 1; i < a.size(); i++)
             content.add(a.get(i));
-        double multiplier = 1.0;
 
+        double multiplier = 1.0;
         for (int i = 1; i <= 12; i++) {
             double sum = 0;
             for (String s : content) {
@@ -264,7 +264,7 @@ public class Main {
             }
             temp.add((int) Math.ceil(sum));
         }
-        for(int year = 2020; year <= 2030; year++) {
+        for(int year = 2020; year <= 2035; year++) {
             for (int i = 0; i < temp.size(); i++) {
                 temp.set(i,  (int)Math.ceil(temp.get(i) * 1.01));
             }
@@ -272,23 +272,16 @@ public class Main {
         }
         List<ArrayList<Integer>> values = new ArrayList<>(results.values());
         Set<Integer> keys = results.keySet();
-        System.out.println("ZESTAWIENIE:");
-        for(int i = 0; i < results.size(); i++) {
-            System.out.println("Rok " + keys.toArray()[i] + ", Miesiące: " + values.toArray()[i]);
-        }
-        System.out.println("\nMIESIĄC GDZIE SIEĆ SIĘ PRZEPEŁNI: ");
-        ArrayList<Integer> tempdasda = new ArrayList<>();
-        for (ArrayList<Integer> value : values) {
-            for (int j = 0; j < value.size(); j++) {
-                if(Integer.parseInt((String) keys.toArray()[j]) <= 2020) {
-                    if (value.get(j) > 1600) {
-                        tempdasda.add(value.get(j));
-                    }
+        int maxWaterFlow = 160000;
+        for(int i = 0; i < keys.size(); i++) {
+            if((int)keys.toArray()[i] >= 2021)
+                maxWaterFlow += 1000;
+            for(int j = 0; j < values.get(i).size(); j++)
+                if(values.get(i).get(j) > maxWaterFlow) {
+                    System.out.println(values.get(i).get(j));
                 }
-                else
-            }
         }
-        System.out.println(tempdasda.get(0));
+
     }
     /*
     Wodociągi  miejskie  zaplanowały  inwestycję,  która  począwszy  od  2021  roku  corocznie w styczniu pozwoli na zwiększanie maksymalnego przepływu o 1000 m3.
@@ -297,6 +290,6 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-        zad5Part4();
+        zad5Part5();
     }
 }
