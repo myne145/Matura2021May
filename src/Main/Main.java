@@ -255,6 +255,7 @@ public class Main {
         for(int i = 1; i < a.size(); i++)
             content.add(a.get(i));
 
+        ArrayList<Integer> temp2 = new ArrayList<>();
         double multiplier = 1.0;
         for (int i = 1; i <= 12; i++) {
             double sum = 0;
@@ -264,25 +265,32 @@ public class Main {
             }
             temp.add((int) Math.ceil(sum));
         }
-        for(int year = 2020; year <= 2035; year++) {
+        int year = 2021;
+        int limit = 160000;
+        do {
+            limit += 1000;
             for (int i = 0; i < temp.size(); i++) {
                 temp.set(i,  (int)Math.ceil(temp.get(i) * 1.01));
             }
             results.put(year, new ArrayList<>(temp));
-        }
-        List<ArrayList<Integer>> values = new ArrayList<>(results.values());
-        Set<Integer> keys = results.keySet();
-        int maxWaterFlow = 160000;
-        for(int i = 0; i < keys.size(); i++) {
-            if((int)keys.toArray()[i] >= 2021)
-                maxWaterFlow += 1000;
-            for(int j = 0; j < values.get(i).size(); j++)
-                if(values.get(i).get(j) > maxWaterFlow) {
-                    System.out.println(values.get(i).get(j));
-                }
+            year++;
+            temp2 = temp;
+            Collections.sort(temp2);
+        } while (temp2.get(0) <= limit);
+        System.out.println(results);
+//        List<ArrayList<Integer>> values = new ArrayList<>(results.values());
+//        Set<Integer> keys = results.keySet();
+//        int maxWaterFlow = 160000;
+//        for(int i = 0; i < keys.size(); i++) {
+//            if((int)keys.toArray()[i] >= 2021)
+//                maxWaterFlow += 1000;
+//            for(int j = 0; j < values.get(i).size(); j++)
+//                if(values.get(i).get(j) > maxWaterFlow) {
+//                    System.out.println(values.get(i).get(j));
+//                }
         }
 
-    }
+//    }
     /*
     Wodociągi  miejskie  zaplanowały  inwestycję,  która  począwszy  od  2021  roku  corocznie w styczniu pozwoli na zwiększanie maksymalnego przepływu o 1000 m3.
     Podaj  rok  i  miesiąc,  kiedy  pierwszy  raz  zabraknie  wody  w  mieście  po  uwzględnieniu  tej inwestycji.
