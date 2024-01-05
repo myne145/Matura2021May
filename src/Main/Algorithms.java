@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Algorithms {
-    public static ArrayList<String> loadFileArray(File file) throws IOException {
+    public static ArrayList<String> readFile(File file) throws IOException {
         return (ArrayList<String>) Files.readAllLines(file.toPath());
     }
 
