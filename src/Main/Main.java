@@ -8,29 +8,43 @@ public class Main {
 
     private static void zad4_1() throws IOException {
         ArrayList<String> content = Algorithms.readFile(new File("instrukcje.txt"));
-        ArrayList<Character> result = new ArrayList<>();
+        int length = 0;
         for(String s : content) {
             String command = s.split(" ")[0];
-            char letter = s.split(" ")[1].charAt(0);
             switch (command) {
                 case "DOPISZ":
-                    result.add(letter);
-                    break;
-                case "ZMIEN":
-
+                    length++;
                     break;
                 case "USUN":
-                    result.remove(result.size() - 1);
+                    length--;
                     break;
-                case "PRZESUN":
-
-                    break;
-
             }
         }
+        System.out.println(length);
+    }
 
+    private static void zad4_2() throws IOException {
+        ArrayList<String> content = Algorithms.readFile(new File("instrukcje.txt"));
+        String temp = "";
+        int length = 0;
+        int lengthMax = 0;
+        int index = 0;
+        for(int i = 0; i < content.size(); i++) {
+            String command = content.get(i).split(" ")[0];
+            if(command.equals(temp)) {
+                length++;
+            } else {
+                if(length > lengthMax) {
+                    lengthMax = length;
+                    index = i-1;
+                }
+                length = 1;
+            }
+            temp = command;
+        }
+        System.out.println(content.get(index).split(" ")[0] + "\t" + lengthMax);
     }
     public static void main(String[] args) throws IOException {
-        zad4_1();
+        zad4_2();
     }
 }
