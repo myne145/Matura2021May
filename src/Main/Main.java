@@ -49,7 +49,7 @@ public class Main {
     }
 
     private static void zad4_3() throws IOException {
-        ArrayList<String> content = Algorithms.readFile(new File("przyklad.txt"));
+        ArrayList<String> content = Algorithms.readFile(new File("instrukcje.txt"));
         LinkedHashMap<String, Integer> letters = new LinkedHashMap<>();
         for(String s : content) {
             if(!s.split(" ")[0].equals("DOPISZ"))
@@ -62,9 +62,45 @@ public class Main {
                 letters.put(letter, letters.get(letter) + 1);
         }
         System.out.println(Collections.max(letters.values()));
+        System.out.println(letters);
+    }
+
+    private static void zad4_4() throws IOException {
+        ArrayList<String> content = Algorithms.readFile(new File("instrukcje.txt"));
+        ArrayList<String> word = new ArrayList<>();
+        for(String s : content) {
+            String command = s.split(" ")[0];
+            String letter = s.split(" ")[1];
+            switch (command) {
+                case "DOPISZ":
+                    word.add(letter);
+                    break;
+                case "ZMIEN":
+                    word.set(word.size() - 1, letter);
+                    break;
+                case "USUN":
+                    word.remove(word.size() - 1);
+                    break;
+                case "PRZESUN":
+                    for(int i = 0; i < word.size(); i++) {
+                        if(word.get(i).equals(letter)) {
+                            if(letter.charAt(0) != 'Z')
+                                word.set(i, String.valueOf((char) (letter.charAt(0) + 1)));
+                            else
+                                word.set(i, "A");
+                            break;
+                        }
+                    }
+                    break;
+            }
+        }
+        for(String s : word)
+            System.out.print(s);
+
+        System.out.println();
     }
 
     public static void main(String[] args) throws IOException {
-        zad4_3();
+        zad4_4();
     }
 }
