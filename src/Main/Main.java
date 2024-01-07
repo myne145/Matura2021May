@@ -3,6 +3,9 @@ package Main;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 
 public class Main {
 
@@ -44,7 +47,24 @@ public class Main {
         }
         System.out.println(content.get(index).split(" ")[0] + "\t" + lengthMax);
     }
+
+    private static void zad4_3() throws IOException {
+        ArrayList<String> content = Algorithms.readFile(new File("przyklad.txt"));
+        LinkedHashMap<String, Integer> letters = new LinkedHashMap<>();
+        for(String s : content) {
+            if(!s.split(" ")[0].equals("DOPISZ"))
+                continue;
+
+            String letter = s.split(" ")[1];
+            if(letters.get(letter) == null)
+                letters.put(letter, 1);
+            else
+                letters.put(letter, letters.get(letter) + 1);
+        }
+        System.out.println(Collections.max(letters.values()));
+    }
+
     public static void main(String[] args) throws IOException {
-        zad4_2();
+        zad4_3();
     }
 }
